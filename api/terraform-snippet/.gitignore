@@ -1,0 +1,34 @@
+# Node.js
+node_modules/
+dist/
+.env
+.env.test
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# TypeScript
+*.tsbuildinfo
+
+# Jest
+coverage/
+jest-cache/
+jest-config.js
+
+# Docker
+docker-compose.override.yml
+**/pgdata/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+*.sw?
+
+# Misc
+*.sqli*
