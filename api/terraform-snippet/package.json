@@ -2,9 +2,11 @@
   "name": "terraform-snippet",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {
-    "test": "jest"
-  },
+"scripts": {
+  "test": "jest --detectOpenHandles --forceExit",
+  "dev": "ts-node-dev src/index.ts",
+  "build": "tsc"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",

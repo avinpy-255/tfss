@@ -1,27 +1,38 @@
 import { Request, Response } from 'express';
-import pool  from "./db";
-
-export const getSnippets = async (req: Request, res: Response) => {
-  const result = await pool.query('SELECT * FROM snippets');
-  res.json(result.rows);
-};
-
-export const addSnippet = async (req: Request, res: Response) => {
-  const { title, category, code, description } = req.body;
-  const result = await pool.query(
-    'INSERT INTO snippets (title, category, code, description) VALUES ($1, $2, $3, $4) RETURNING *',
-    [title, category, code, description]
-  );
-  res.status(201).json(result.rows[0]);
-};
+import * as SnippetService from './services/snippet.service'; // 🆕 Service import
+import { snippts } from './model';
 
 export const getAllSnippets = async (_req: Request, res: Response) => {
   try {
-    const result = await pool.query('SELECT * FROM snippets');
+    const snippets = await SnippetService.getAllSnippets();
     console.log('🟢 DB connected & queried successfully');
-    res.json(result.rows); // <-- this should return an array
+    res.json(snippets);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server Error' });
   }
-}
+};
+
+export const addSnippet = async (req: Request, res: Response): Promise<void> => {
+  const { title, category, code, description } = req.body;
+
+  if (!title || !category || !code) {
+    res.status(400).json({ message: 'Missing required fields' });
+    return;
+  }
+
+  const newSnippet: snippts = {
+    title,
+    category,
+    code,
+    description,
+  };
+
+  try {
+    const created = await SnippetService.createSnippet(newSnippet);
+    res.status(201).json(created);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Failed to add snippet' });
+  }
+};

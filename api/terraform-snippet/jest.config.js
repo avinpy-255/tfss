@@ -8,4 +8,6 @@ module.exports = {
   transform: {
     ...tsJestTransformCfg,
   },
+  collectCoverage: true,
+  coverageDirectory: "coverage",
 };
