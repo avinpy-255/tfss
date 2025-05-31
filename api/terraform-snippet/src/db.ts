@@ -1,8 +1,11 @@
 import { Pool } from 'pg';
-import dotenv from 'dotenv';
 
-dotenv.config();
-
-export const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+const pool = new Pool({
+  host: 'localhost',       // docker exposes it on your machine
+  port: 5432,
+  user: 'postgres',
+  password: 'password',
+  database: 'snippets',
 });
+
+export default pool;
